@@ -8,6 +8,6 @@ setup:
 deploy:
 	git push heroku
 lint:
-	composer phpcs
+	composer run-script phpcs -- --standard=PSR12 tests
 test:
 	php artisan test

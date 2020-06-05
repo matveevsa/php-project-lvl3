@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dac3ad9b64ed12a695307e55866ad904",
+    "content-hash": "be7c5b24ca56cfe03add7cf47d3269b1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -726,6 +726,60 @@
             "time": "2019-07-01T23:21:34+00:00"
         },
         {
+            "name": "laracasts/flash",
+            "version": "3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/flash.git",
+                "reference": "150d4348477db31b9a93ccd07f713e3d0513b3bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/flash/zipball/150d4348477db31b9a93ccd07f713e3d0513b3bf",
+                "reference": "150d4348477db31b9a93ccd07f713e3d0513b3bf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0|^6.0|^7.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laracasts\\Flash\\FlashServiceProvider"
+                    ],
+                    "aliases": {
+                        "Flash": "Laracasts\\Flash\\Flash"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Flash": "src/"
+                },
+                "files": [
+                    "src/Laracasts/Flash/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Easy flash notifications",
+            "time": "2020-03-03T15:50:52+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v7.12.0",
             "source": {
@@ -941,6 +995,61 @@
                 "psysh"
             ],
             "time": "2020-04-07T15:01:31+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "15368c5328efb7ce94f35ca750acde9b496ab1b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/15368c5328efb7ce94f35ca750acde9b496ab1b1",
+                "reference": "15368c5328efb7ce94f35ca750acde9b496ab1b1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^7.0",
+                "illuminate/filesystem": "^7.0",
+                "illuminate/support": "^7.0",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "time": "2020-04-29T15:06:45+00:00"
         },
         {
             "name": "league/commonmark",
@@ -1225,16 +1334,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.34.2",
+            "version": "2.35.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "3e87404329b8072295ea11d548b47a1eefe5a162"
+                "reference": "4b9bd835261ef23d36397a46a76b496a458305e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e87404329b8072295ea11d548b47a1eefe5a162",
-                "reference": "3e87404329b8072295ea11d548b47a1eefe5a162",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4b9bd835261ef23d36397a46a76b496a458305e5",
+                "reference": "4b9bd835261ef23d36397a46a76b496a458305e5",
                 "shasum": ""
             },
             "require": {
@@ -1304,7 +1413,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-19T22:14:16+00:00"
+            "time": "2020-05-24T18:27:52+00:00"
         },
         {
             "name": "nikic/php-parser",

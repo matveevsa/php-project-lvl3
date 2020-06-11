@@ -1,1 +1,1 @@
-<pre>{{dump($data)}}</pre>
+{{phpinfo()}}

@@ -64,9 +64,4 @@ class DomainsController extends Controller
         }
         return view('show', compact('domain'));
     }
-
-    public function dump()
-    {
-        return view('dump');
-    }
 }

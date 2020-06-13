@@ -5,20 +5,26 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Faker\Factory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DomainsControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
      * @return void
      */
+
+    public $id;
+
     protected function setUp(): void
     {
         parent::setUp();
         $faker = Factory::create();
 
-        DB::table('domains')->insert([
+        $this->id = DB::table('domains')->insertGetId([
             'name' => parse_url($faker->url, PHP_URL_HOST),
             'created_at' => $faker->dateTime()
         ]);
@@ -40,30 +46,16 @@ class DomainsControllerTest extends TestCase
 
     public function testStore()
     {
-        $faker = Factory::create();
-
-        $id = DB::table('domains')->insertGetId([
-            'name' => parse_url($faker->url, PHP_URL_HOST),
-            'created_at' => $faker->dateTime()
-        ]);
-
         $response = $this->post(route('domains.store'));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        $this->assertDatabaseHas('domains', ['id' => $id]);
+        $this->assertDatabaseHas('domains', ['id' => $this->id]);
     }
 
     public function testShow()
     {
-        $faker = Factory::create();
-
-        $id = DB::table('domains')->insertGetId([
-            'name' => parse_url($faker->url, PHP_URL_HOST),
-            'created_at' => $faker->dateTime()
-        ]);
-
-        $response = $this->get(route('domains.show', $id));
+        $response = $this->get(route('domains.show', $this->id));
 
         $response->assertOk();
     }

@@ -11,7 +11,7 @@ class DomainsController extends Controller
 {
     public function index()
     {
-        $domains = DB::table('domains')->get();
+        $domains = DB::table('domains')->get()->sort();
         return view('domains', compact('domains'));
     }
 
@@ -43,10 +43,10 @@ class DomainsController extends Controller
             return redirect()->route('domains.show', ['id' => $currentId]);
         }
 
-        $created_at = Carbon::now();
         $domain = [
             'name' => $domainName,
-            'created_at' => $created_at
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ];
 
         $newId = DB::table('domains')->insertGetId($domain);
@@ -62,6 +62,39 @@ class DomainsController extends Controller
         if (empty($domain)) {
             return abort(404);
         }
+
+        $domainChecks = DB::table('domain_checks')
+            ->where('domain_id', '=', $domain->id)
+            ->get()
+            ->sortDesc();
+
+        $domain->checks = $domainChecks;
+
         return view('show', compact('domain'));
+    }
+
+    public function checks($id)
+    {
+        $domain = DB::table('domains')->find($id);
+
+        if (empty($domain)) {
+            return abort(404);
+        }
+
+        $domainChecks = [
+            'domain_id' => $domain->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ];
+
+        DB::table('domains')
+            ->where('id', '=', $domain->id)
+            ->update(['updated_at' => Carbon::now()]);
+
+        DB::table('domain_checks')
+            ->insert($domainChecks);
+
+        flash('Url has been checked')->info()->important();
+        return redirect()->route('domains.show', $domain->id);
     }
 }

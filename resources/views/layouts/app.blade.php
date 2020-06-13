@@ -26,7 +26,7 @@
             </div>
         </nav>
     </header>
-    <main class="flex-grow-1 content">
+    <main class="flex-grow-1 content bg-white">
         @yield('content')
     </main>
     <footer class="border-top py-3 mt-5">

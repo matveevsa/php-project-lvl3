@@ -7,7 +7,7 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-nowrap">
             <tbody>
-                <tr>
+                <tr class="thead-light">
                     <th>ID</th>
                     <th>Name</th>
                     <th>Last check</th>
@@ -16,8 +16,8 @@
                 @foreach($domains as $domain)
                 <tr>
                     <td>{{ $domain->id }}</td>
-                    <td><a href="/domains/{{ $domain->id }}">https://{{ $domain->name }}</a></td>
-                    <td></td>
+                    <td><a href="{{ route('domains.show', $domain->id) }}">https://{{ $domain->name }}</a></td>
+                    <td>{{ $domain->updated_at }}</td>
                     <td></td>
                 </tr>
                 @endforeach

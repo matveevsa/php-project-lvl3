@@ -19,7 +19,7 @@ class DomainsControllerTest extends TestCase
         $faker = Factory::create();
 
         DB::table('domains')->insert([
-            'name' => $faker->url,
+            'name' => parse_url($faker->url, PHP_URL_HOST),
             'created_at' => $faker->dateTime()
         ]);
     }
@@ -43,7 +43,7 @@ class DomainsControllerTest extends TestCase
         $faker = Factory::create();
 
         $id = DB::table('domains')->insertGetId([
-            'name' => $faker->url,
+            'name' => parse_url($faker->url, PHP_URL_HOST),
             'created_at' => $faker->dateTime()
         ]);
 
@@ -59,7 +59,7 @@ class DomainsControllerTest extends TestCase
         $faker = Factory::create();
 
         $id = DB::table('domains')->insertGetId([
-            'name' => $faker->url,
+            'name' => parse_url($faker->url, PHP_URL_HOST),
             'created_at' => $faker->dateTime()
         ]);
 

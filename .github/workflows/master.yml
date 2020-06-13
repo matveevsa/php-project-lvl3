@@ -1,5 +1,3 @@
-name: Master workflow
-
 on:
   pull_request:
     branches:
@@ -8,9 +6,25 @@ on:
     branches:
       - 'master'
 
+name: Master workflow
+
 jobs:
-  build:
+  phpunit:
     runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:7.3
+
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - uses: actions/checkout@v1
 

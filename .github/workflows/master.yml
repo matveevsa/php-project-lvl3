@@ -32,12 +32,13 @@ jobs:
       uses: StephaneBour/actions-php-security-checker@1.0
 
     - name: Setup project
-      run: 	composer install
-            cp -n .env.example .env || true
-            php artisan key:gen --ansi
-            php artisan migrate
-            php artisan db:seed
-            npm install
+      run: 	|
+        composer install
+        cp -n .env.example .env || true
+        php artisan key:gen --ansi
+        php artisan migrate
+        php artisan db:seed
+        npm install
 
     - name: Check lint
       run: composer run-script phpcs -- --standard=PSR12 tests

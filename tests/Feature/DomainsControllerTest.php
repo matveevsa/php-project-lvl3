@@ -59,4 +59,24 @@ class DomainsControllerTest extends TestCase
 
         $response->assertOk();
     }
+
+    public function testChecks()
+    {
+        $faker = Factory::create();
+
+        $domainChecks = [
+            'domain_id' => $this->id,
+            'created_at' => $faker->dateTime(),
+            'updated_at' => $faker->dateTime()
+        ];
+
+        DB::table('domain_checks')
+            ->insert($domainChecks);
+
+        $response = $this->post(route('domains.checks', $this->id));
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('domain_checks', $domainChecks);
+    }
 }

@@ -11,17 +11,17 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container-lg">
-                <a class="navbar-brand" href="/">Analyzer</a>
+                <a class="navbar-brand" href="{{ route('domains.create') }}">Analyzer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">Home</a>
+                            <a class="nav-link active" href="{{ route('domains.create') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="/domains">Domains</a>
+                            <a class="nav-link" href="{{ route('domains.index') }}">Domains</a>
                         </li>
                     </ul>
                 </div>

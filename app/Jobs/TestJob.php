@@ -14,6 +14,7 @@ class TestJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+
     /**
      * Create a new job instance.
      *
@@ -34,6 +35,8 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        sleep(10);
+
+        
     }
 }

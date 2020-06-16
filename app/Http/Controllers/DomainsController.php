@@ -92,7 +92,13 @@ class DomainsController extends Controller
             return abort(404);
         }
 
-        $response = Http::get($domain->name);
+        try {
+            $response = Http::get($domain->name);
+        } catch (\Exception $e) {
+            flash('Url address has not exists')->error()->important();
+            return redirect()->route('domains.show', $domain->id);
+        }
+
         $bodyHtml = $response->body();
 
         $document = new Document($bodyHtml);

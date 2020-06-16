@@ -74,25 +74,20 @@ class DomainsControllerTest extends TestCase
 
     public function testChecks()
     {
-        Http::fake();
-        $faker = Factory::create();
+        Http::fake(function () {
+            $body = '<h1>Hello, from test!</h1>
+            <meta name="description" content="The most popular HTML, CSS, and JS library in the world.">
+            <meta name="keywords" content="HTML, CSS, JS, library">';
 
-        $res = Http::get($faker->url);
+            return Http::response($body, 200);
+        });
 
-        $domainChecks = [
-            'domain_id' => $this->id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            'status_code' => $res->status()
-        ];
+        $domain = DB::table('domains')->find($this->id);
 
-        $response = $this->post(route('domains.store'), $domainChecks);
+        $response = $this->post(route('domains.checks', $domain->id));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-        DB::table('domain_checks')
-        ->insert($domainChecks);
-
-        $this->assertDatabaseHas('domain_checks', $domainChecks);
+        $this->assertDatabaseHas('domain_checks', ['domain_id' => $domain->id]);
     }
 }

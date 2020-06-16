@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use DiDom\Document;
 
 class DomainsController extends Controller
 {
@@ -92,12 +93,26 @@ class DomainsController extends Controller
         }
 
         $response = Http::get($domain->name);
+        $bodyHtml = $response->body();
+
+        $document = new Document($bodyHtml);
+
+        $h1 = $document->has('h1') ? $document->first('h1')->text() : null;
+        $keywords = $document->has('meta[name="keywords"]')
+            ? $document->first('meta[name="keywords"]')->getAttribute('content')
+             : null;
+        $description = $document->has('meta[name="description"]')
+            ? $document->first('meta[name="description"]')->getAttribute('content')
+             : null;
 
         $domainChecks = [
             'domain_id' => $domain->id,
             'status_code' => $response->status(),
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
+            'h1' => $h1,
+            'keywords' => $keywords,
+            'description' =>  $description
         ];
 
         DB::table('domains')

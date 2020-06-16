@@ -7,7 +7,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <title>@yield('title', 'Main page')</title>
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column bg-white">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container-lg">
@@ -28,14 +28,14 @@
             </div>
         </nav>
     </header>
-    <main class="flex-grow-1 content bg-white">
+    <main class="flex-grow-1 content">
         @yield('content')
     </main>
-    <footer class="border-top py-3 mt-5">
+    <footer class="border-top py-3 mt-5 bg-dark text-white">
         <div class="container-lg">
             <div class="text-center">
                 created by
-                <a href="https://ru.hexlet.io/u/driver" target="_blank">DriveR</a>
+                <a class="text-warning" href="https://ru.hexlet.io/u/driver" target="_blank">DriveR</a>
             </div>
         </div>
     </footer>

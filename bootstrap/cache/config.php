@@ -398,13 +398,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => '/home/driver/Desktop/PHP Hexlet/php-project-lvl3/storage/logs/laravel.log',
+        'path' => '/storage/logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => '/home/driver/Desktop/PHP Hexlet/php-project-lvl3/storage/logs/laravel.log',
+        'path' => '/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -454,7 +454,7 @@
       ),
       'emergency' => 
       array (
-        'path' => '/home/driver/Desktop/PHP Hexlet/php-project-lvl3/storage/logs/laravel.log',
+        'path' => '/storage/logs/laravel.log',
       ),
     ),
   ),

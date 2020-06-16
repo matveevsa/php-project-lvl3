@@ -10,6 +10,10 @@ setup:
 deploy:
 	git push heroku
 lint:
-	composer run-script phpcs -- --standard=PSR12 tests
+	composer run-script phpcs -- --standard=PSR12 tests app
 test:
 	php artisan test
+migrate:
+	php artisan migrate
+reset_db:
+	php artisan migrate:reset

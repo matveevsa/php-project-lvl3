@@ -3,7 +3,7 @@
 @section('content')
 @include('flash::message')
 <div class="container-lg">
-    <h1 class="mt-5 mb-3">Site: https://{{ $domain->name }}</h1>
+    <h1 class="mt-5 mb-3">Site: {{ $domain->name }}</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-nowrap">
             <tbody>
@@ -13,7 +13,7 @@
                 </tr>
                 <tr>
                     <td>name</td>
-                    <td>https://{{ $domain->name }}</td>
+                    <td>{{ $domain->name }}</td>
                 </tr>
                 <tr>
                     <td>created_at</td>
@@ -46,6 +46,10 @@
                     <tr>
                         <td  class="font-weight-bold">updated_at</td>
                         <td>{{ $check->updated_at }}</td>
+                    </tr>
+                    <tr>
+                        <td  class="font-weight-bold">status code</td>
+                        <td>{{ $check->status_code }}</td>
                     </tr>
                 </tbody>
             </table>

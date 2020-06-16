@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class DomainsController extends Controller
 {
     public function index()
     {
-        $domains = DB::table('domains')->get()->sort();
+        $domains = DB::table('domains')
+            ->join('domain_checks', 'domains.id', '=', 'domain_checks.domain_id', 'left outer')
+            ->select('domains.*', 'domain_checks.status_code')
+            ->get()
+            ->unique('id')
+            ->sort();
+
         return view('domains', compact('domains'));
     }
 
@@ -31,11 +38,14 @@ class DomainsController extends Controller
             return redirect()->route('domains.create');
         }
 
-        $domainData = $request->input('domain');
-        $domainName = parse_url($domainData['name'], PHP_URL_HOST);
+        $domainUrl = $request->input('domain');
+
+        $urlParsed = parse_url($domainUrl['name']);
+
+        $domainNormalizedName = strtolower("{$urlParsed['scheme']}://{$urlParsed['host']}");
 
         $currentId = DB::table('domains')
-            ->where('name', $domainName)
+            ->where('name', $domainNormalizedName)
             ->value('id');
 
         if (!empty($currentId)) {
@@ -44,7 +54,7 @@ class DomainsController extends Controller
         }
 
         $domain = [
-            'name' => $domainName,
+            'name' => $domainNormalizedName,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ];
@@ -81,8 +91,11 @@ class DomainsController extends Controller
             return abort(404);
         }
 
+        $response = Http::get($domain->name);
+
         $domainChecks = [
             'domain_id' => $domain->id,
+            'status_code' => $response->status(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ];

@@ -21,7 +21,7 @@ class TestJob implements ShouldQueue
      * @return void
      */
 
-    protected $id;
+    public $id;
 
     public function __construct($id)
     {
@@ -35,8 +35,7 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        sleep(10);
 
-        
+        return redirect()->route('domains.index');
     }
 }

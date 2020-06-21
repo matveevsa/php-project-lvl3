@@ -9,11 +9,8 @@ on:
 name: Master workflow
 
 jobs:
-  phpunit:
+  build:
     runs-on: ubuntu-latest
-    container:
-      image: kirschbaumdevelopment/laravel-test-runner:7.3
-
     services:
       postgres:
         image: postgres:12.3
@@ -24,7 +21,6 @@ jobs:
         ports:
         - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
     - uses: actions/checkout@v1
 
@@ -32,15 +28,10 @@ jobs:
       uses: StephaneBour/actions-php-security-checker@1.0
 
     - name: Setup project
-      run: 	|
-        composer install
-        cp -n .env.example .env || true
-        php artisan key:gen --ansi
-        php artisan migrate
-        npm install
+      run: make setup
 
     - name: Check lint
-      run: composer run-script phpcs -- --standard=PSR12 tests
+      run: make lint
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: php artisan test
+      run: make test

@@ -6,26 +6,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
-use DiDom\Document;
 
 class DomainsController extends Controller
 {
     public function index()
     {
         $domains = DB::table('domains')
-            ->join('domain_checks', 'domains.id', '=', 'domain_checks.domain_id', 'left outer')
-            ->select('domains.*', 'domain_checks.status_code')
             ->get()
-            ->unique('id')
             ->sort();
 
-        return view('domains', compact('domains'));
+        $domainChecks = DB::table('domain_checks')
+            ->distinct('domain_id')
+            ->select('status_code', 'domain_id')
+            ->get();
+
+        $mapped = [];
+
+        foreach ($domainChecks as $item) {
+            $mapped[$item->domain_id] = $item->status_code;
+        }
+
+        $domains = $domains->map(function ($item) use ($mapped) {
+            $item->status_code = $mapped[$item->id] ?? null;
+            return $item;
+        });
+
+        return view('domains.domains', compact('domains'));
     }
 
     public function create()
     {
-        return view('create');
+        return view('domains.create');
     }
 
     public function store(Request $request)
@@ -75,60 +86,12 @@ class DomainsController extends Controller
         }
 
         $domainChecks = DB::table('domain_checks')
-            ->where('domain_id', '=', $domain->id)
+            ->where('domain_id', $domain->id)
             ->get()
             ->sortDesc();
 
         $domain->checks = $domainChecks;
 
-        return view('show', compact('domain'));
-    }
-
-    public function checks($id)
-    {
-        $domain = DB::table('domains')->find($id);
-
-        if (empty($domain)) {
-            return abort(404);
-        }
-
-        try {
-            $response = Http::get($domain->name);
-        } catch (\Exception $e) {
-            flash('Url address has not exists')->error()->important();
-            return redirect()->route('domains.show', $domain->id);
-        }
-
-        $bodyHtml = $response->body();
-
-        $document = new Document($bodyHtml);
-
-        $h1 = $document->has('h1') ? $document->first('h1')->text() : null;
-        $keywords = $document->has('meta[name="keywords"]')
-            ? $document->first('meta[name="keywords"]')->getAttribute('content')
-             : null;
-        $description = $document->has('meta[name="description"]')
-            ? $document->first('meta[name="description"]')->getAttribute('content')
-             : null;
-
-        $domainChecks = [
-            'domain_id' => $domain->id,
-            'status_code' => $response->status(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            'h1' => $h1,
-            'keywords' => $keywords,
-            'description' =>  $description
-        ];
-
-        DB::table('domains')
-            ->where('id', '=', $domain->id)
-            ->update(['updated_at' => Carbon::now()]);
-
-        DB::table('domain_checks')
-            ->insert($domainChecks);
-
-        flash('Url has been checked')->info()->important();
-        return redirect()->route('domains.show', $domain->id);
+        return view('domains.show', compact('domain'));
     }
 }

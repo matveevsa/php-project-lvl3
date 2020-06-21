@@ -29,6 +29,7 @@
         </nav>
     </header>
     <main class="flex-grow-1 content">
+        @include('flash::message')
         @yield('content')
     </main>
     <footer class="border-top py-3 mt-5 bg-dark text-white">

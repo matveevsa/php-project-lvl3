@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 
-class DomainsControllerTest extends TestCase
+class ChecksControllerTest extends TestCase
 {
 
     /**
@@ -39,34 +39,22 @@ class DomainsControllerTest extends TestCase
         $this->id = DB::table('domains')->insertGetId($domain);
     }
 
-    public function testIndex()
+    public function testChecks()
     {
-        $response = $this->get(route('domains.index'));
+        Http::fake(function () {
+            $body = '<h1>Hello, from test!</h1>
+            <meta name="description" content="The most popular HTML, CSS, and JS library in the world.">
+            <meta name="keywords" content="HTML, CSS, JS, library">';
 
-        $response->assertOk();
-    }
+            return Http::response($body, 200);
+        });
 
-    public function testCreate()
-    {
-        $response = $this->get(route('domains.create'));
+        $domain = DB::table('domains')->find($this->id);
 
-        $response->assertOk();
-    }
-
-    public function testStore()
-    {
-        $response = $this->post(route('domains.store'));
+        $response = $this->post(route('domains.checks', $domain->id));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 
-
-        $this->assertDatabaseHas('domains', ['id' => $this->id]);
-    }
-
-    public function testShow()
-    {
-        $response = $this->get(route('domains.show', $this->id));
-
-        $response->assertOk();
+        $this->assertDatabaseHas('domain_checks', ['domain_id' => $domain->id]);
     }
 }

@@ -7,11 +7,16 @@
       <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
         <h1 class="display-3">Page Analyzer</h1>
         <p class="lead">Check web pages for free</p>
-        <form action="{{ route('domains.index') }}" method="post" class="d-flex justify-content-center">
-            @csrf
-          <input type="text" name="domain[name]" class="form-control form-control-lg" placeholder="https://www.example.com">
-            <button type="submit" class="btn btn-lg btn-primary ml-3 px-5 text-uppercase">Check</button>
-        </form>
+        {{ Form::open([
+          'action' => 'DomainsController@index',
+          'class' => 'd-flex justify-content-center'])
+        }}
+          {{ Form::text('domain[name]', $value = null, $attributes = [
+            'class' => 'form-control form-control-lg',
+            'palceholder' => 'https://www.example.com'])
+          }}
+          {{ Form::submit('Check', $attributes = ['class' => 'btn btn-lg btn-primary ml-3 px-5 text-uppercase']) }}
+        {{ Form::close() }}
       </div>
     </div>
   </div>

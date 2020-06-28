@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 
-class ChecksControllerTest extends TestCase
+class DomainChecksControllerTest extends TestCase
 {
 
     /**
@@ -39,7 +39,7 @@ class ChecksControllerTest extends TestCase
         $this->id = DB::table('domains')->insertGetId($domain);
     }
 
-    public function testChecks()
+    public function testStore()
     {
         Http::fake(function () {
             $body = '<h1>Hello, from test!</h1>
@@ -51,7 +51,7 @@ class ChecksControllerTest extends TestCase
 
         $domain = DB::table('domains')->find($this->id);
 
-        $response = $this->post(route('domains.checks', $domain->id));
+        $response = $this->post(route('domainChecks.store', $domain->id));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
 

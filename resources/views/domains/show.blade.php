@@ -26,10 +26,12 @@
         </table>
     </div>
     <h2 class="mt-5 mb-3">Checks</h2>
-    <form method="post" action="{{ route('domains.store', $domain->id) }}" class="mb-2">
-        @csrf
-        <input type="submit" class="btn btn-info" value="Run check">
-    </form>
+    {{ Form::open([
+        'route' => ['domainChecks.store', $domain->id],
+        'class' => 'mb-2'])
+      }}
+        {{ Form::submit('Run check', $attributes = ['class' => 'btn btn-info']) }}
+      {{ Form::close() }}
     @foreach ($domain->checks as $check)
         <div class="table-responsive">
             <table class="table table-bordered table-hover bg-light">

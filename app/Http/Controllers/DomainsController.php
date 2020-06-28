@@ -13,25 +13,22 @@ class DomainsController extends Controller
     {
         $domains = DB::table('domains')
             ->get()
-            ->sort();
+            ->sortBy('id');
 
         $domainChecks = DB::table('domain_checks')
             ->distinct('domain_id')
             ->select('status_code', 'domain_id')
-            ->get();
+            ->get()
+            ->keyBy('domain_id')
+            ->toArray();
 
-        $mapped = [];
-
-        foreach ($domainChecks as $item) {
-            $mapped[$item->domain_id] = $item->status_code;
-        }
-
-        $domains = $domains->map(function ($item) use ($mapped) {
-            $item->status_code = $mapped[$item->id] ?? null;
-            return $item;
+        $updatedDomains = $domains->each(function ($item) use ($domainChecks) {
+            if (array_key_exists($item->id, $domainChecks)) {
+                $item->status_code = $domainChecks[$item->id]->status_code;
+            }
         });
 
-        return view('domains.domains', compact('domains'));
+        return view('domains.domains', ['domains' => $updatedDomains]);
     }
 
     public function create()

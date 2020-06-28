@@ -26,7 +26,7 @@
         </table>
     </div>
     <h2 class="mt-5 mb-3">Checks</h2>
-    <form method="post" action="{{ route('domains.checks', $domain->id) }}" class="mb-2">
+    <form method="post" action="{{ route('domains.store', $domain->id) }}" class="mb-2">
         @csrf
         <input type="submit" class="btn btn-info" value="Run check">
     </form>

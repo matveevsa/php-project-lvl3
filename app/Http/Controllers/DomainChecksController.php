@@ -7,10 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use DiDom\Document;
 
-class ChecksController extends Controller
+class DomainChecksController extends Controller
 {
 
-    public function checks($id)
+    public function store($id)
     {
         $domain = DB::table('domains')->find($id);
 

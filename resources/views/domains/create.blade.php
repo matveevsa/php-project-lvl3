@@ -8,7 +8,7 @@
         <h1 class="display-3">Page Analyzer</h1>
         <p class="lead">Check web pages for free</p>
         {{ Form::open([
-          'action' => 'DomainsController@index',
+          'route' => 'domains.index',
           'class' => 'd-flex justify-content-center'])
         }}
           {{ Form::text('domain[name]', $value = null, $attributes = [

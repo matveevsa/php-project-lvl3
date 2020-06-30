@@ -22,13 +22,7 @@ class DomainsController extends Controller
             ->keyBy('domain_id')
             ->toArray();
 
-        $updatedDomains = $domains->each(function ($item) use ($domainChecks) {
-            if (array_key_exists($item->id, $domainChecks)) {
-                $item->status_code = $domainChecks[$item->id]->status_code;
-            }
-        });
-
-        return view('domains.domains', ['domains' => $updatedDomains]);
+        return view('domains.domains', compact('domains', 'domainChecks'));
     }
 
     public function create()

@@ -16,13 +16,13 @@ class DomainsController extends Controller
             ->sortBy('id');
 
         $domainChecks = DB::table('domain_checks')
-            ->distinct('domain_id')
+            ->selectRaw('SELECT DISTINCT ON domain_id')
             ->select('status_code', 'domain_id')
             ->get()
             ->keyBy('domain_id')
             ->toArray();
 
-        return view('domains.domains', compact('domains', 'domainChecks'));
+            return view('domains.domains', compact('domains', 'domainChecks'));
     }
 
     public function create()

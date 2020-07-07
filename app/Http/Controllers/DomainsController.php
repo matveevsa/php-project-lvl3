@@ -16,8 +16,8 @@ class DomainsController extends Controller
             ->sortBy('id');
 
         $domainChecks = DB::table('domain_checks')
-            ->selectRaw('SELECT DISTINCT ON domain_id')
-            ->select('status_code', 'domain_id')
+            ->selectRaw('DISTINCT ON (created_at) domain_id, status_code')
+            ->orderBy('created_at', 'asc')
             ->get()
             ->keyBy('domain_id')
             ->toArray();
